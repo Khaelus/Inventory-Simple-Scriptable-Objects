@@ -18,6 +18,8 @@ public class ItemContainerData
 {
     public int itemId;
     public int quantity;
+    public int equippedType; // Nuevo campo para almacenar el tipo de equipamiento (0: Sin equipar, 1: Armadura)
+    //public bool isWeaponEquipped; //colocar en la logica de save y load
 }
 
 public class Backpack : MonoBehaviour
@@ -71,6 +73,8 @@ public class Backpack : MonoBehaviour
         AddItem(ItemDatabase.instance.items[1], 1);
         AddItem(ItemDatabase.instance.items[2], 1);
         AddItem(ItemDatabase.instance.items[3], 1);
+        AddItem(ItemDatabase.instance.items[4], 1);
+        AddItem(ItemDatabase.instance.items[5], 1);
     }
 
     public void AddItem(Item item, int quantity)
@@ -94,7 +98,7 @@ public class Backpack : MonoBehaviour
             newItemContainer.itemOnContainer = item;
             newItemContainer.quantity = quantity;
 
-            // Añade el contenedor del item a la lista de contenedores en el script del inventario
+            // AÃ±ade el contenedor del item a la lista de contenedores en el script del inventario
             itemContainerList.Add(newItemContainer);
         }
 
@@ -126,7 +130,8 @@ public class Backpack : MonoBehaviour
             ItemContainerData containerData = new ItemContainerData
             {
                 itemId = itemContainer.itemOnContainer.itemId,
-                quantity = itemContainer.quantity
+                quantity = itemContainer.quantity,
+                equippedType = itemContainer.equippedType // Guardar el tipo de equipamiento
             };
 
             containerDataList.Add(containerData);
@@ -182,8 +187,10 @@ public class Backpack : MonoBehaviour
                     // Asigna el item al contenedor del item
                     newItemContainer.itemOnContainer = item;
                     newItemContainer.quantity = containerData.quantity;
+                    newItemContainer.equippedType = containerData.equippedType;
 
-                    // Añade el contenedor del item a la lista de contenedores en el script del inventario
+
+                    // AÃ±ade el contenedor del item a la lista de contenedores en el script del inventario
                     itemContainerList.Add(newItemContainer);
                 }
             }
@@ -195,6 +202,7 @@ public class Backpack : MonoBehaviour
             Debug.Log("No saved items found.");
         }
     }
+
 
     private void ClearItemContainers()
     {
